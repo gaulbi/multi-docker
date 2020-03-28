@@ -17,5 +17,4 @@ after_success:
     - docker push gaulbi/multi-docker
     - docker push gaulbi/multi-nginx
     - docker push gaulbi/multi-server
-    - docker push gaulbi/multi-server
     - docker push gaulbi/multi-worker
