@@ -1,0 +1,21 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t gaulbi/multi-docker -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run gaulbi/multi-docker npm test -- --coverage
+
+after_success:
+    - docker build -t gaulbi/multi-docker ./client
+    - docker build -t gaulbi/multi-nginx ./nginx
+    - docker build -t gaulbi/multi-server ./server
+    - docker built -t gaulbi/multi-worker ./worker
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push gaulbi/multi-docker
+    - docker push gaulbi/multi-nginx
+    - docker push gaulbi/multi-server
+    - docker push gaulbi/multi-server
+    - docker push gaulbi/multi-worker
